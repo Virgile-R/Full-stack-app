@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import Loading from "./Loading";
+import Errors from "./Errors";
 
 
 export default function UpdateCourse() {
@@ -28,6 +29,18 @@ export default function UpdateCourse() {
         }
       );
   }, [id]);
+
+  //setting the default values so the user have access to the previous values
+  useEffect(() => {
+      setTitle(course.title)
+      setDescription(course.description)
+     if (course.estimatedTime){ 
+      setEstimatedTime(course.estimatedTime)
+    }
+    if (course.materialsNeeded) {
+      setMaterialsNeeded(course.materialsNeeded)
+    }
+  }, [course])
   
   function handleChange (event) {
     const name = event.target.name
@@ -64,28 +77,32 @@ export default function UpdateCourse() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedCourse)
       }
+      //TODO: add error handling
       fetch('http://localhost:5000/api/courses/' + id, request)
       .then(response => {
         if (response.status !== 204){
-            return response.json()
+            const json = response.json() //this returns a promise but not an error
+            console.log(json)
             
         } else {
             history.push("/courses/" + id)
             
         } 
         })
-    .then(response => {
-        if (response){
-           setError(response)
-           console.log(error)
-        }
-    })
+   .catch((error) => {
+       setIsLoaded(true);
+       setError(error)
+       console.log(error)
+   })
   }
-
  
   if (!isLoaded){
       return <Loading />
+  } else if (error){
+      
+      return <Errors  />
   } else {
+
   return(
     <main>
     <div className="wrap">

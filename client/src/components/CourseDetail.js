@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import Error from "./Error";
+import Errors from "./Errors";
 import Loading from "./Loading";
 
 export default function CourseDetails() {
@@ -32,7 +32,7 @@ export default function CourseDetails() {
 
 
   if (error) {
-    return <Error errors={error} />;
+    return <Errors errors={error} />;
   } else if (!isLoaded) {
     return <Loading />;
   } else {
@@ -40,10 +40,10 @@ export default function CourseDetails() {
       <main>
         <div className="actions--bar">
           <div className="wrap">
-            <a className="button" href={`/courses/update/${id}`}>
+            <a className="button" href={`/courses/${id}/update`}>
               Update Course
             </a>
-            <a className="button" href={`/courses/delete/${id}`}>
+            <a className="button" href={`/courses/${id}/delete`}>
               Delete Course
             </a>
             <a className="button button-secondary" href="/">
@@ -58,27 +58,31 @@ export default function CourseDetails() {
               <div>
                 <h3 className="course--detail--title">Course</h3>
                 <h4 className="course--name">{title}</h4>
-                <p>{`${courseOwner}`}</p>
+                <p>{`By ${courseOwner}`}</p>
 
                 {description.split("\n").map((phrase, index) => (
                   <p key={index}>{phrase}</p>
                 ))}
-
+               </div>     
                 <div>
                   <h3 className="course--detail--title">Estimated Time</h3>
+                  {!estimatedTime &&
+                  <p>N/A</p>}
                   <p>{estimatedTime}</p>
 
                   <h3 className="course--detail--title">Materials Needed</h3>
                   <ul className="course--detail--list">
-                    { 
-                      materialsNeeded.split("\n*").map((material, index) => (
+                    { materialsNeeded &&
+                      materialsNeeded.slice(1).split("\n*").map((material, index) => (
                       
                       <li key={index}>{material}</li>
                     ))}
+                    { !materialsNeeded &&
+                      <li> N/A</li>}
                   </ul>
                 </div>
               </div>
-            </div>
+            
           </form>
         </div>
       </main>

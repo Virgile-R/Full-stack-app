@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Error from "./Error";
+import Errors from "./Errors";
 import Loading from "./Loading";
 
 export default function Courses () {
@@ -30,7 +30,7 @@ export default function Courses () {
 
 
 if (error){
-    return <Error errors={error}/>
+    return <Errors errors={error}/>
 } else if (!isLoaded) {
     return <Loading/>
 

@@ -1,4 +1,4 @@
-export default function Error(props) {
+export default function Errors(props) {
     return (
     <main>
             <div className="wrap">
