@@ -2,20 +2,20 @@
  * Helper class to help user fetching and auth
  */
 
-import { response } from "express"
+
 
 export default class DataFetching {
     constructor(){
-        this.apiBaseURL = 'http://localhost/api/'
+        this.apiBaseURL = 'http://localhost:5000/api'
     }
 
     /**
      * wraps the fetch API to avoid constructing the request again and again
-     * @param {string} path
-     * @param {string} method
-     * @param {object} body
-     * @param {boolean} requiresAuth
-     * @param {object} credentials
+     * @param {string} path path to the API
+     * @param {string} method HTML Method
+     * @param {object} body Body of the request
+     * @param {boolean} requiresAuth If the route requires auth or not
+     * @param {object} credentials If the route requires auth, the credentials
      *  
     */
     fetchData(path, method = 'GET', body = null, requiresAuth = false, credentials = null){
@@ -24,7 +24,8 @@ export default class DataFetching {
             method,
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',  
-            }
+            },
+            mode: 'cors'
         }
         // if the body contains something, it is passed as option
         if (body !== null){
@@ -32,10 +33,11 @@ export default class DataFetching {
         }
         // if the route requires authentification, authentification is passed through credentials. Btoa is marked as deprecated in Node
         if (requiresAuth){
-            const encodedCredentials = Buffer.from(`${credentials.username}:${credentials.password}`, 'base64')
+            const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`)
             options.headers['Authorization'] = `Basic ${encodedCredentials}`
         }
         //finally, the fetch API is called with the options provided
+        console.log(options)
         return fetch(url, options)
     }
 
@@ -44,15 +46,15 @@ export default class DataFetching {
      * @param {string} username
      * @param {string} password
     */
-   async getUser(username, password){
+   async getUser(emailAddress, password){
        //request info from the API
-       const reponse = await this.apiBaseURL(`/users`, 'GET', null, true, {username, password})
+       const response = await this.fetchData(`/users`, 'GET', null, true, {emailAddress, password})
        //if the response is OK, sends the user data to the next step
        if (response.status === 200){
-           return reponse.json().then(data => data)
+           return response.json().then(data => data)
        } 
        //if the credentials are wrong, then nothing is returned
-       else if (reponse.status === 401){
+       else if (response.status === 401){
            return null
        } else {
            throw new Error()

@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import Errors from "./Errors";
 import Loading from "./Loading";
+import { Context } from "../Context";
 
 export default function CourseDetails() {
   const [error, setError] = useState(null);
@@ -9,6 +10,7 @@ export default function CourseDetails() {
   const [course, setCourse] = useState([]);
 
   let { id } = useParams();
+  let context = useContext(Context)
   //useEffect to retrieve the course
   useEffect(() => {
     fetch("http://localhost:5000/api/courses/" + id, { mode: "cors" })
@@ -38,7 +40,7 @@ export default function CourseDetails() {
   } else {
     return (
       <main>
-        <div className="actions--bar">
+       {context.authenticatedUser && context.authenticatedUser.user.id === course.userId ? <div className="actions--bar">
           <div className="wrap">
             <a className="button" href={`/courses/${id}/update`}>
               Update Course
@@ -51,6 +53,11 @@ export default function CourseDetails() {
             </a>
           </div>
         </div>
+        :  <div className="wrap">
+        <a className="button button-secondary" href="/">
+              Return to List
+            </a>
+        </div>}
         <div className="wrap">
           <h2>Course Detail</h2>
           <form>

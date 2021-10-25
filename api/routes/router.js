@@ -11,7 +11,7 @@ const router = express.Router()
 // User routes
 router.get("/users", authenticateUser, asyncHandler(async (req,res, next) => {
    
-        const user = await User.findOne({where: {id: req.currentUser.id}, attributes: ['firstName', 'lastName', 'emailAddress']});
+        const user = await User.findOne({where: {id: req.currentUser.id}, attributes: ['id','firstName', 'lastName', 'emailAddress']});
         res.json({user})
         
    

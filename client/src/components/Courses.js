@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import Errors from "./Errors";
 import Loading from "./Loading";
 
+
 export default function Courses () {
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [courses, setCourses] = useState([])
+  
 
   useEffect(() => {
     fetch('http://localhost:5000/api/courses', {mode: 'cors'})
