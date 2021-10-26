@@ -32,7 +32,7 @@ export default function UserSignIn() {
         if (!currentUser){
             setErrors('Invalid username or password.')
         } else {
-            history.push("/")
+            history.goBack()
         }       
     }
     
@@ -41,12 +41,15 @@ export default function UserSignIn() {
         <main>
             <div className="form--centered">
                 <h2>Sign In</h2>
-                    {errors && <p className="errors">{errors}</p> }                    
-                
+                {errors &&
+                <div className="validation--errors">
+                     <h3>{errors}</h3>                    
+                </div>
+                } 
                 <form onSubmit={handleSubmit}>
-                    <label htmlfor="emailAddress">Email Address</label>
+                    <label htmlFor="emailAddress">Email Address</label>
                     <input id="emailAddress" name="emailAddress" type="email" value={emailAddress} onChange={handleChange}/>
-                    <label htmlfor="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input id="password" name="password" type="password" value={password} onChange={handleChange} />
                     <button className="button" type="submit">Sign In</button><a className="button button-secondary" href="/">Cancel</a>
                 </form>

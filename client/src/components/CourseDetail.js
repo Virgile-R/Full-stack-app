@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router";
-import Errors from "./Errors";
+import { useParams, useHistory } from "react-router";
 import Loading from "./Loading";
 import { Context } from "../Context";
+import ReactMarkdown from "react-markdown"
 
 export default function CourseDetails() {
-  const [error, setError] = useState(null);
+  const history = useHistory()
+  
   const [isLoaded, setIsLoaded] = useState(false);
   const [course, setCourse] = useState([]);
 
@@ -14,18 +15,26 @@ export default function CourseDetails() {
   //useEffect to retrieve the course
   useEffect(() => {
     fetch("http://localhost:5000/api/courses/" + id, { mode: "cors" })
-      .then((results) => results.json())
-      .then(
-        (result) => {
-          setCourse(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
+      .then(response => {
+        if (response.status === 200) {
+          response.json()
+          .then(
+            (result) => {
+              setCourse(result);
+              setIsLoaded(true);
+            }
+          );
+        } else if (response.status === 404){
+          history.push("/notfound")
+        } else {
+          throw Error()
         }
-      );
-  }, [id]);
+      
+      })
+      .catch(() => {
+        history.push("/error")
+   })
+  }, [id, history]);
 
  
   //destructuring course and user for readability
@@ -33,9 +42,8 @@ export default function CourseDetails() {
 
 
 
-  if (error) {
-    return <Errors errors={error} />;
-  } else if (!isLoaded) {
+
+ if (!isLoaded) {
     return <Loading />;
   } else {
     return (
@@ -65,11 +73,9 @@ export default function CourseDetails() {
               <div>
                 <h3 className="course--detail--title">Course</h3>
                 <h4 className="course--name">{title}</h4>
-                <p>{`By ${courseOwner}`}</p>
+                <p>By <span className="course-owner">{courseOwner}</span></p>
 
-                {description.split("\n").map((phrase, index) => (
-                  <p key={index}>{phrase}</p>
-                ))}
+                <ReactMarkdown>{description}</ReactMarkdown>
                </div>     
                 <div>
                   <h3 className="course--detail--title">Estimated Time</h3>
@@ -79,11 +85,9 @@ export default function CourseDetails() {
 
                   <h3 className="course--detail--title">Materials Needed</h3>
                   <ul className="course--detail--list">
-                    { materialsNeeded &&
-                      materialsNeeded.slice(1).split("\n*").map((material, index) => (
-                      
-                      <li key={index}>{material}</li>
-                    ))}
+                   { materialsNeeded &&
+                    <ReactMarkdown>{materialsNeeded}</ReactMarkdown>
+                    }
                     { !materialsNeeded &&
                       <li> N/A</li>}
                   </ul>

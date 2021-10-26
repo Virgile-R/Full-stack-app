@@ -39,16 +39,26 @@ router.post('/users', asyncHandler(async (req, res, next) => {
 router.get('/courses', asyncHandler(async (req, res, next) => {
     
         const courses = await Course.findAll({attributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId']})
-        res.status(200).json(courses)
-    
+        if (courses){
+            res.status(200).json(courses)
+        } else {
+            res.status(500).end()
+        }
 }))
 
 router.get('/courses/:id', asyncHandler(async (req, res, next) => {
-        //raw: true allows us to return the updated response
-        let course = await Course.findByPk(req.params.id, {attributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId'], raw: true})
-        const courseOwner = await User.findByPk(course.userId, {attributes: ['firstName', 'lastName']})
-        course.courseOwner =  courseOwner.firstName + ' ' + courseOwner.lastName
-        res.status(200).json(course)
+      
+            let course = await Course.findByPk(req.params.id, {attributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId'], raw: true})
+            if (course){
+                const courseOwner = await User.findByPk(course.userId, {attributes: ['firstName', 'lastName']})
+                course.courseOwner =  courseOwner.firstName + ' ' + courseOwner.lastName
+                res.status(200).json(course)
+            } else {
+                res.status(404).end()
+            }
+            
+     
+       
    
 }))
 
@@ -58,8 +68,9 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res, next) =>
         const course = await req.body
         course.userId = await req.currentUser.id
 
-        await Course.create(course)
-        res.status(201).location('/api/courses/' + course.id ).end()
+        const newCourse = await Course.create(course)
+       
+        res.status(201).location('/courses/' + newCourse.id ).end()
         
     } catch (error) {
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {

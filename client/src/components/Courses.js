@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Errors from "./Errors";
+import UnhandledErrors from "./UnhandledError";
 import Loading from "./Loading";
 
 
@@ -11,7 +11,7 @@ export default function Courses () {
 
   useEffect(() => {
     fetch('http://localhost:5000/api/courses', {mode: 'cors'})
-    // Apparently not being an arrow function doesn't work here, investigate why
+    
       .then(results => 
         results.json()
       
@@ -32,7 +32,7 @@ export default function Courses () {
 
 
 if (error){
-    return <Errors errors={error}/>
+    return <UnhandledErrors />
 } else if (!isLoaded) {
     return <Loading/>
 
@@ -43,6 +43,7 @@ if (error){
         {courses.map(course => (
             <a key={course.id} className="course--module course--link" href={`/courses/${course.id}`}>
                 <h2 className="course--label">Course</h2>
+                <hr className="rounded"/>
                 <h3 className="course--title">{course.title}</h3>
             </a>
         ))

@@ -37,7 +37,7 @@ export default class DataFetching {
             options.headers['Authorization'] = `Basic ${encodedCredentials}`
         }
         //finally, the fetch API is called with the options provided
-        console.log(options)
+        
         return fetch(url, options)
     }
 
@@ -66,7 +66,7 @@ export default class DataFetching {
     * @returns null if successful, an array with validation errors if the request was malformed.
     */
    async createUser(user) {
-    const response = await this.api('/users', 'POST', user);
+    const response = await this.fetchData('/users', 'POST', user);
     if (response.status === 201) {
       return [];
     }

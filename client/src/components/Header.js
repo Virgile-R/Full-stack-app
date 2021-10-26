@@ -7,7 +7,7 @@ export default function Header(){
 
     return (<header>
             <div className="wrap header--flex">
-                <h1 className="header--logo"><a href="/">Courses</a></h1>
+                <h1 className="header--logo"><a href="/">Courses Catalog</a></h1>
                 <nav>
                     <ul className="header--signedin">
                         <li>Welcome, {`${authuser.firstName} ${authuser.lastName}`}</li>

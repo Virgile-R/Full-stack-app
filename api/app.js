@@ -34,9 +34,11 @@ app.use(morgan("dev"));
   }
 )();
 //setup CORS policy => Localhost is not working as a CORS params
+const corsOptions = {
+  exposedHeaders: ['Location']
+}
 
-
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(express.json())
 // setup a friendly greeting for the root route

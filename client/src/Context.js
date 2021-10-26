@@ -16,7 +16,8 @@ export class Provider extends Component {
         this.cookie = Cookies.get('authenticatedUser')
         this.state = {
             //if a cookie is present, the state is set to its content
-            authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null
+            authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null,
+            
         }
     }
    
@@ -25,6 +26,7 @@ export class Provider extends Component {
         const {authenticatedUser} = this.state
         const value = {
             authenticatedUser,
+           
             data: this.data,
             actions: {
                 signIn: this.signIn,
@@ -45,9 +47,12 @@ export class Provider extends Component {
         const user = await this.data.getUser(emailAddress, password)
         //if a user is found, sets the returned user as the authenticated user and sets a cookie with his infos
         if (user !== null) {
+            const authenticationToken = btoa(`${emailAddress}:${password}`)
+            user.authenticationToken = authenticationToken
             this.setState(()=> {
                 return {
-                    authenticatedUser: user
+                    authenticatedUser: user,
+                    
                 }
             })
             Cookies.set('authenticatedUser', JSON.stringify(user), {expires:1})

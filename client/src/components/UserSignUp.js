@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router'
-//refactor as a function...
+
 export default function UserSignUp (){
    const [firstName, setFirstName] = useState('')
    const [lastName, setLastName] = useState('')
@@ -8,7 +8,8 @@ export default function UserSignUp (){
    const [password, setPassword] = useState('')
    const [errors, setErrors] = useState('')
    const history = useHistory()
-    //access the value of input
+   
+   //access the value of input
     function handleChange (event) {
         const name = event.target.name
         const value = event.target.value
@@ -43,20 +44,20 @@ export default function UserSignUp (){
       
         fetch('http://localhost:5000/api/users', request)
             .then(response => {
-                if (response.status !== 201){
-                    return response.json()
+                if (response.status === 201){
+                                        history.push("/")
+                    
+                } else if (response.status === 400) {
+                    response.json()
+                     .then(errors => setErrors(errors.errors))
+                    
                     
                 } else {
-                    history.push("/")
-                    
+                    throw Error()
                 } 
                 })
-            .then(response => {
-                if (response){
-                   setErrors(response)
-                   console.log(errors)
-                }
-            })
+                .catch(() => history.push("/error"))
+           
             
                
                 
@@ -71,15 +72,25 @@ export default function UserSignUp (){
             <div className="form--centered">
                 
                 <h2>Sign Up</h2>
-                
+                {errors &&
+            <div className="validation--errors">
+                    <h3>Please enter the following information(s) to create an account:</h3>
+                    
+                    <ul> {errors.map((error, index) => 
+                        <li key={index}>{error}</li>
+                    )}
+                        
+                    </ul>
+                </div>
+            }
                 <form onSubmit={handleSubmit}>
-                    <label htmlfor="firstName">First Name</label>
+                    <label htmlFor="firstName">First Name</label>
                     <input id="firstName" name="firstName" type="text" value={firstName} onChange={handleChange} />
-                    <label htmlfor="lastName">Last Name</label>
+                    <label htmlFor="lastName">Last Name</label>
                     <input id="lastName" name="lastName" type="text" value={lastName} onChange={handleChange}/>
-                    <label htmlfor="emailAddress">Email Address</label>
+                    <label htmlFor="emailAddress">Email Address</label>
                     <input id="emailAddress" name="emailAddress" type="email" value={emailAddress} onChange={handleChange}/>
-                    <label htmlfor="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input id="password" name="password" type="password" value={password} onChange={handleChange}/>
                     <button className="button" type="submit">Sign Up</button><a className="button button-secondary" href='/'>Cancel</a>
                 </form>

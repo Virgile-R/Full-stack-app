@@ -6,7 +6,7 @@ html {
     font-size: 1.25em;
 }
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 h2 {
     font-size: 1.5rem;
@@ -33,7 +33,7 @@ a {
     text-align: center;
 }
 header {
-    background: #57496e;
+    background: #9c416c;
     color: #fff;
     padding: 1rem 0;
     margin-bottom: 2rem;
@@ -44,7 +44,7 @@ header {
     align-items: center;
 }
 .header--logo a {
-    font-size: 1.25rem;
+    font-size: 2rem;
     color: #fff;
 }
 header li {
@@ -66,12 +66,16 @@ header nav a:hover {
     margin-left: .5rem;
 }
 .course--module {
-    background: #7c689b;
+    background: #9c416c;
     border-radius: .5rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: block;
 }
+hr.rounded {
+    border-top: 2px solid rgba(52, 185, 107, 0.500);
+    border-radius: 5px;
+  }
 .course--label {
     color: #fff;
     font-size: .9rem;
@@ -108,7 +112,12 @@ header nav a:hover {
     font-size: 2rem;
     margin-bottom: .5rem;
     font-weight: 700;
-    color: #47395e;
+    color: #9b627d;
+}
+.course-owner {
+    font-weight: 700;
+    color: #9b627d;
+    
 }
 .course--detail--list {
     font-weight: 300;
@@ -171,7 +180,7 @@ textarea {
     min-height: 300px;
 }
 .button {
-    background: #7c689b;
+    background: #9c416c;
     color: #fff;
     font-size: 1rem;
     padding: .75rem 1.5rem;
@@ -188,18 +197,18 @@ textarea {
     margin-bottom: 0;
 }
 .button:not(.button-secondary):hover {
-    background: #63537d;
+    background: #be7f9d;
     cursor: pointer;
 }
 .button-secondary {
-    color: #7c689b;
+    color: #9c416c;
     background: none;
-    box-shadow: 0 0 0 2px #7c689b inset;
+    box-shadow: 0 0 0 2px #9c416c inset;
     transition: box-shadow 0.2s, color 0.2s;
 }
 .button-secondary:hover {
-    color: #63537d;
-    box-shadow: 0 0 0 2px #63537d inset;
+    color: #be7f9d;
+    box-shadow: 0 0 0 2px #be7f9d inset;
     cursor: pointer;
 }
 input:focus, button:focus, .button:focus, textarea:focus {
