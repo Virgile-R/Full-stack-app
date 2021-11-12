@@ -37,7 +37,7 @@ exports.authenticateUser = async (req, res, next) => {
   } else {
     message = "The authentification header was not found.";
   }
-  //if message is not null, something went wrong: return a 401 error, if not the user is logged in and goes to the requested route
+  //if message is not empty, something went wrong: return a 401 error, if not the user is logged in and goes to the requested route
   if (message) {
     console.warn(message);
     res.status(401).json({ message: "Access denied" });

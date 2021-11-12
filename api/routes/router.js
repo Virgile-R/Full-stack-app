@@ -2,6 +2,7 @@ const express = require("express");
 //import middleware
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
+const { authenticateToken } = require("../middleware/authToken");
 //import models
 const { User, Course } = require("../models");
 const router = express.Router();
@@ -93,7 +94,7 @@ router.get(
 
 router.post(
   "/courses",
-  authenticateUser,
+  authenticateToken,
   asyncHandler(async (req, res, next) => {
     try {
       const course = await req.body;
@@ -121,7 +122,7 @@ router.post(
 
 router.put(
   "/courses/:id",
-  authenticateUser,
+  authenticateToken,
   asyncHandler(async (req, res, next) => {
     try {
       const course = await Course.findByPk(req.params.id);
@@ -152,7 +153,7 @@ router.put(
 
 router.delete(
   "/courses/:id",
-  authenticateUser,
+  authenticateToken,
   asyncHandler(async (req, res, next) => {
     try {
       const course = await Course.findByPk(req.params.id);
