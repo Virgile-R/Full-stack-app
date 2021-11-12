@@ -1,8 +1,8 @@
 "use strict";
-
+require("dotenv").config();
 // load modules
 const express = require("express");
-const cors = require('cors')
+const cors = require("cors");
 const morgan = require("morgan");
 const { sequelize } = require("./models");
 const routes = require("./routes/router");
@@ -18,29 +18,26 @@ const app = express();
 app.use(morgan("dev"));
 
 //testing and syncing the db
-(
-  
-  async () => {
-    try {
-      await sequelize.authenticate();
-      console.log("Connection to the DB established");
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection to the DB established");
 
-      await sequelize.sync();
-      console.log("Models synchronised");
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    await sequelize.sync();
+    console.log("Models synchronised");
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
-)();
+})();
 //setup CORS policy => Localhost is not working as a CORS params
 const corsOptions = {
-  exposedHeaders: ['Location']
-}
+  exposedHeaders: ["Location"],
+};
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
-app.use(express.json())
+app.use(express.json());
 // setup a friendly greeting for the root route
 app.get("/", (req, res) => {
   res.json({
