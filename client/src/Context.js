@@ -12,17 +12,17 @@ export class Provider extends Component {
     super();
     //new instance of DataFetching
     this.data = new DataFetching();
-    this.cookie = Cookies.get("authenticatedUser");
+    this.cookie = Cookies.get("authenticatedUserToken");
     this.state = {
       //if a cookie is present, the state is set to its content
-      authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null,
+      authenticatedUserToken: this.cookie ? JSON.parse(this.cookie) : null,
     };
   }
 
   render() {
-    const { authenticatedUser } = this.state;
+    const { authenticatedUserToken } = this.state;
     const value = {
-      authenticatedUser,
+      authenticatedUserToken,
 
       data: this.data,
       actions: {
@@ -40,23 +40,23 @@ export class Provider extends Component {
 
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
-    //if a user is found, sets the returned user as the authenticated user and sets a cookie with his infos
+    //if a user is found, sets the returned user token as the authenticated user's token and sets a cookie with his infos
     if (user !== null) {
-      const authenticationToken = btoa(`${emailAddress}:${password}`);
-      user.authenticationToken = authenticationToken;
       this.setState(() => {
         return {
-          authenticatedUser: user,
+          authenticatedUserToken: user.userToken,
         };
       });
-      Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
+      Cookies.set("authenticatedUserToken", JSON.stringify(user), {
+        expires: 1,
+      });
     }
     return user;
   };
 
   signOut = () => {
-    this.setState({ authenticatedUser: null });
-    Cookies.remove("authenticatedUser");
+    this.setState({ authenticatedUserToken: null });
+    Cookies.remove("authenticatedUserToken");
   };
 }
 
