@@ -5,12 +5,12 @@ export default function DeleteCourse() {
   const history = useHistory();
   let { id } = useParams();
   const context = useContext(Context);
-  const authUserToken = context.authenticatedUserToken;
+  const authUserToken = context.authenticatedUserToken.user.userToken;
   const request = {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${authUserToken}`,
+      Authorization: `Bearer ${authUserToken}`,
     },
   };
   fetch("http://localhost:5000/api/courses/" + id, request).then((response) => {

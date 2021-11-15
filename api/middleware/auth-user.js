@@ -25,7 +25,9 @@ exports.authenticateUser = async (req, res, next) => {
           lastName: user.lastName,
           emailAdddress: user.emailAdddress,
         };
-        const userToken = jwt.sign({ userObject }, process.env.JWT_SECRET_KEY);
+        const userToken = jwt.sign({ userObject }, process.env.JWT_SECRET_KEY, {
+          expiresIn: "1d",
+        });
         req.currentUser = user;
         req.userToken = userToken;
       } else {
