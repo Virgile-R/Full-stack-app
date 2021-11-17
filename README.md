@@ -2,14 +2,14 @@
 
 ## To start the project:
 
-Create a .env file in the root folder containing your JWT secret key:
+Create a .env file in the API root folder containing your JWT secret key:
 
 ```
 JWT_SECRET_KEY=YOUR_SECRET_PHRASE_GOES_HERE
 
 ```
 
-Run npm start from both the client and api folder.
+Run npm start from both the client and api folders.
 
 ## Features:
 
