@@ -32,7 +32,7 @@ export default function UserSignIn() {
     if (!currentUser) {
       setErrors("Invalid username or password.");
     } else {
-      history.push("/");
+      history.goBack();
     }
   }
 
@@ -70,8 +70,8 @@ export default function UserSignIn() {
           </a>
         </form>
         <p>
-          Don't have a user account? Click here to <a href="/signup">sign up</a>
-          !
+          Don't have a user account? Click here to{" "}
+          <a href="/sign-up">sign up</a>!
         </p>
       </div>
     </main>

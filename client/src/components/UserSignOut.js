@@ -7,7 +7,7 @@ export default function UserSignOut() {
 
   useEffect(() => {
     context.actions.signOut();
-  }, []);
+  }, [context.actions]);
 
   if (context.authenticatedUserToken !== null) return null;
 

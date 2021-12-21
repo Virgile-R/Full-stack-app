@@ -9,7 +9,6 @@ export const Context = React.createContext();
 
 export class Provider extends Component {
   constructor() {
-    console.log("Je construis");
     super();
     //new instance of DataFetching
     this.data = new DataFetching();
@@ -21,13 +20,9 @@ export class Provider extends Component {
   }
 
   render() {
-    console.log("The context component just rendered");
-    console.log("Context state:", this.state);
     const { authenticatedUserToken } = this.state;
-
     const value = {
       authenticatedUserToken,
-
       data: this.data,
       actions: {
         signIn: this.signIn,
