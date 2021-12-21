@@ -43,7 +43,7 @@ export default class DataFetching {
       options.headers["Authorization"] = `Basic ${encodedCredentials}`;
     }
     //finally, the fetch API is called with the options provided
-    console.log(options);
+
     return fetch(url, options);
   }
 
@@ -58,12 +58,11 @@ export default class DataFetching {
       emailAddress,
       password,
     });
-    console.log(response);
+
     //if the response is OK, sends the user data to the next step
     if (response.status === 200) {
       const responseData = await response.json();
 
-      console.log(responseData);
       return responseData;
     }
     //if the credentials are wrong, then nothing is returned

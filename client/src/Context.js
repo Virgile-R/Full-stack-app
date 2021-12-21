@@ -9,6 +9,7 @@ export const Context = React.createContext();
 
 export class Provider extends Component {
   constructor() {
+    console.log("Je construis");
     super();
     //new instance of DataFetching
     this.data = new DataFetching();
@@ -20,7 +21,10 @@ export class Provider extends Component {
   }
 
   render() {
+    console.log("The context component just rendered");
+    console.log("Context state:", this.state);
     const { authenticatedUserToken } = this.state;
+
     const value = {
       authenticatedUserToken,
 
@@ -42,11 +46,7 @@ export class Provider extends Component {
     const user = await this.data.getUser(emailAddress, password);
     //if a user is found, sets the returned user token as the authenticated user's token and sets a cookie with his infos
     if (user !== null) {
-      this.setState(() => {
-        return {
-          authenticatedUserToken: user.userToken,
-        };
-      });
+      this.setState({ authenticatedUserToken: user });
       Cookies.set("authenticatedUserToken", JSON.stringify(user), {
         expires: 1,
       });
@@ -61,21 +61,3 @@ export class Provider extends Component {
 }
 
 export const Consumer = Context.Consumer;
-
-/**
- * A higher-order component that wraps the provided component in a Context Consumer component.
- * @param {class} Component - A React component.
- * @returns {function} A higher-order component.
- *
- * Code snippet from the TeamTreeHouse Workshop on React Auth
- */
-
-export default function withContext(Component) {
-  return function ContextComponent(props) {
-    return (
-      <Context.Consumer>
-        {(context) => <Component {...props} context={context} />}
-      </Context.Consumer>
-    );
-  };
-}

@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { Context } from "../Context";
 export default function Header() {
-  let context = useContext(Context);
+  const context = useContext(Context);
+  console.log({ context });
   if (context.authenticatedUserToken) {
     const authuser = context.authenticatedUserToken.user;
 
