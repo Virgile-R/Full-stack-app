@@ -2,7 +2,7 @@
  * Helper class to help user fetching and auth
  */
 
-export default class DataFetching {
+class DataFetching {
   constructor() {
     this.apiBaseURL = "http://localhost:5000/api";
   }
@@ -90,3 +90,5 @@ export default class DataFetching {
     }
   }
 }
+
+export default new DataFetching();

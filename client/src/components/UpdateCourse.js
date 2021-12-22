@@ -2,10 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router";
 import Loading from "./Loading";
 
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 
 export default function UpdateCourse() {
-  const context = useContext(Context);
+  const context = useContext(UserContext);
   const authuser = context.authenticatedUserToken.user;
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);

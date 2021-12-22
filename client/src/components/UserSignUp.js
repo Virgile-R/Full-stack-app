@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 
 export default function UserSignUp() {
-  const context = useContext(Context);
+  const context = useContext(UserContext);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -46,7 +46,7 @@ export default function UserSignUp() {
     fetch("http://localhost:5000/api/users", request)
       .then(async (response) => {
         if (response.status === 201) {
-          await context.actions.signIn(emailAddress, password);
+          await context[0].actions.signIn(emailAddress, password);
           history.goBack();
         } else if (response.status === 400) {
           response.json().then((errors) => setErrors(errors.errors));

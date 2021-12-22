@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 
 export default function CreateCourse() {
-  let context = useContext(Context);
+  let context = useContext(UserContext);
   const history = useHistory();
   const authuser = context.authenticatedUserToken.user;
   const [errors, setErrors] = useState(null);

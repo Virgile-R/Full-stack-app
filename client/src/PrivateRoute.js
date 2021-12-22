@@ -1,8 +1,8 @@
 import { Route, Redirect } from "react-router";
 import { useContext } from "react";
-import { Context } from "./Context";
+import { UserContext } from "./Context";
 export default function PrivateRoute({ children, ...rest }) {
-  let context = useContext(Context);
+  let context = useContext(UserContext);
   const authuser = context.authenticatedUserToken;
   return (
     <Route

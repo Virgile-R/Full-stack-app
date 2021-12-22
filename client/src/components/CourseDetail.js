@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router";
 import Loading from "./Loading";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 import ReactMarkdown from "react-markdown";
 
 export default function CourseDetails() {
@@ -11,7 +11,7 @@ export default function CourseDetails() {
   const [course, setCourse] = useState([]);
 
   let { id } = useParams();
-  let context = useContext(Context);
+  let context = useContext(UserContext);
   //useEffect to retrieve the course
   useEffect(() => {
     fetch("http://localhost:5000/api/courses/" + id, { mode: "cors" })

@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
+
 export default function Header() {
-  const context = useContext(Context);
-  if (context.authenticatedUserToken) {
-    const authuser = context.authenticatedUserToken.user;
+  const [context, setContext] = useContext(UserContext);
+
+  if (context.authuser) {
+    const authuser = context.authuser.user;
 
     return (
       <header>

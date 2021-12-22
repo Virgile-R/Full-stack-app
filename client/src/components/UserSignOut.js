@@ -1,15 +1,13 @@
 import { Redirect } from "react-router";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 import { useContext, useEffect } from "react";
 
 export default function UserSignOut() {
-  const context = useContext(Context);
+  const context = useContext(UserContext);
 
-  useEffect(() => {
-    context.actions.signOut();
-  }, [context.actions]);
+  context[0].actions.signOut();
 
-  if (context.authenticatedUserToken !== null) return null;
+  // if (context.authenticatedUserToken !== null) return null;
 
   return <Redirect to="/" />;
 }

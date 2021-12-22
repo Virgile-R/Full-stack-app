@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router";
-import { Context } from "../Context";
+import { UserContext } from "../Context";
 
 export default function UserSignIn() {
-  const context = useContext(Context);
+  const context = useContext(UserContext);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
@@ -28,7 +28,7 @@ export default function UserSignIn() {
   //handles the logic on submit
   async function handleSubmit(e) {
     e.preventDefault();
-    const currentUser = await context.actions.signIn(emailAddress, password);
+    const currentUser = await context[0].actions.signIn(emailAddress, password);
     if (!currentUser) {
       setErrors("Invalid username or password.");
     } else {
